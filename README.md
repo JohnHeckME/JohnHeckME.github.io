@@ -1,2 +1,2 @@
-# Jcheck100.github.io
+# JohnHeckME.github.io
 John Heck — mechanical engineering portfolio, aerospace and defense.
