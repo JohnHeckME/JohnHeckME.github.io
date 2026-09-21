@@ -75,7 +75,7 @@ details[open] li:nth-child(2){animation-delay:45ms}details[open] li:nth-child(3)
 
 /* Cohesive interaction pass: shared timings keep motion restrained and consistent. */
 :root{--motion-fast:220ms;--motion-medium:520ms;--motion-slow:760ms;--motion-ease:cubic-bezier(.22,.75,.25,1)}
-.header{position:sticky;top:0;z-index:9;isolation:isolate;overflow:hidden;background:var(--paper);transition:height var(--motion-fast) ease,box-shadow var(--motion-fast) ease,border-color var(--motion-fast) ease}
+.header{position:sticky;top:0;z-index:9;background:var(--paper);transition:height var(--motion-fast) ease,box-shadow var(--motion-fast) ease,border-color var(--motion-fast) ease}
 .header{width:100%;max-width:none;margin:0;display:block}
 .header-inner{position:relative;z-index:1;height:100%;display:flex;align-items:center;justify-content:space-between}
 .page-scrolled .header{height:86px;border-color:transparent;box-shadow:0 8px 24px rgba(17,30,48,.06)}
@@ -92,12 +92,6 @@ nav a.is-current::after{transform:scaleX(1);transform-origin:left}
 .motion-enabled .hero-rule{animation-delay:500ms}
 @keyframes headline-rise{from{opacity:.15;transform:translate3d(0,34px,0)}to{opacity:1;transform:none}}
 @keyframes intro-rise{from{opacity:0;transform:translate3d(0,14px,0)}to{opacity:1;transform:none}}
-
-.header-flow{position:absolute;inset:0;z-index:0;width:100%;height:100%;overflow:visible;opacity:.16;pointer-events:none;mask-image:linear-gradient(90deg,transparent 4%,#000 22%,#000 82%,transparent 98%)}
-.header-flow path{fill:none;stroke:var(--muted);stroke-width:1;vector-effect:non-scaling-stroke;stroke-dasharray:1180;stroke-dashoffset:1180;animation:flow-draw 1500ms var(--motion-ease) 180ms forwards,flow-drift 18s ease-in-out 1.7s infinite alternate}
-.header-flow path+path{opacity:.55;animation-delay:300ms,1.8s}
-@keyframes flow-draw{to{stroke-dashoffset:0}}
-@keyframes flow-drift{from{transform:translate3d(-5px,1px,0)}to{transform:translate3d(7px,-3px,0)}}
 
 .section-rule{position:relative}
 .section-rule::before{content:"";position:absolute;top:-22px;left:0;width:100%;height:1px;background:currentColor;opacity:.2;transform-origin:left}
@@ -138,11 +132,11 @@ details[open] summary>span{transform:rotate(45deg)}
 .motion-enabled .contact-actions{opacity:0;transform:translateY(14px);transition:opacity 480ms ease 220ms,transform 480ms var(--motion-ease) 220ms}
 .motion-enabled .contact-sequence.is-visible .contact-actions{opacity:1;transform:none}
 
-@media(max-width:850px){.header-flow{opacity:.12}.page-scrolled .header{height:76px}.project-image .eb-photo{transform:scale(1.02)}}
-@media(max-width:600px){.header-flow{opacity:.1}.section-rule::before{top:-15px}.project-image{margin-top:22px}.page-scrolled .header{height:70px}}
+@media(max-width:850px){.page-scrolled .header{height:76px}.project-image .eb-photo{transform:scale(1.02)}}
+@media(max-width:600px){.section-rule::before{top:-15px}.project-image{margin-top:22px}.page-scrolled .header{height:70px}}
 @media(prefers-reduced-motion:reduce){
   .hero-line,.hero-intro-item,.contact-line,.contact-actions,.section-rule>.eyebrow,.section-rule>div>.eyebrow{animation:none!important;opacity:1!important;transform:none!important}
-  .header-flow path{animation:none;stroke-dashoffset:0}.section-rule::before{transform:none!important}
+  .section-rule::before{transform:none!important}
   .project-image .eb-photo,.project:hover .project-image .eb-photo,.project:focus-within .project-image .eb-photo{transform:none}
 }
 
@@ -174,7 +168,6 @@ body,.work-section,.project,footer{transition:background-color 280ms ease,color 
 [data-theme="dark"] .contact em{color:#dce5f0}
 [data-theme="dark"] .contact .button{background:#dce5f0;color:#111e30;border-color:#dce5f0}
 [data-theme="dark"] .contact .button:hover,[data-theme="dark"] .contact .button:focus-visible{background:#fff;color:#111e30}
-[data-theme="dark"] .header-flow{opacity:.2}
 @media(hover:hover) and (pointer:fine){[data-theme="dark"] .toolkit span:hover{background:#172435;color:var(--ink);box-shadow:inset 0 0 0 1px #3d4b5e}}
 @media(max-width:600px){.header-controls{gap:12px}nav{gap:14px}.theme-toggle{width:34px;height:34px}.theme-icon{font-size:16px}}
 @media(prefers-reduced-motion:reduce){.theme-icon,.theme-toggle,body,.header,.work-section,.project,footer{transition:none!important}}
