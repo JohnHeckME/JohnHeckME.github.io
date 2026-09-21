@@ -37,14 +37,12 @@
     root.classList.toggle('page-scrolled', scrollY > 32);
 
     if (!reduceMotion && desktopMotion.matches) {
-      root.style.setProperty('--hero-shift', `${Math.min(22, scrollY * 0.025)}px`);
       if (projectImage) {
         const distance = scrollY + window.innerHeight * 0.5 - projectImageTop;
         const offset = Math.max(-12, Math.min(12, distance * 0.018));
         projectImage.style.setProperty('--image-parallax', `${offset.toFixed(2)}px`);
       }
     } else {
-      root.style.setProperty('--hero-shift', '0px');
       projectImage?.style.setProperty('--image-parallax', '0px');
     }
     frame = 0;
