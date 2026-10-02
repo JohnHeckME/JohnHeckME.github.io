@@ -60,6 +60,86 @@
     queueMotionUpdate();
   });
 
+  document.querySelectorAll('[data-carousel]').forEach((carousel) => {
+    const track = carousel.querySelector('.project-carousel-track');
+    const slides = [...carousel.querySelectorAll('.project-carousel-slide')];
+    const dots = [...carousel.querySelectorAll('[data-carousel-go-to]')];
+    const currentLabel = carousel.querySelector('[data-carousel-current]');
+    let currentIndex = 0;
+    let autoplayTimer = 0;
+    let isVisible = !('IntersectionObserver' in window);
+    let isHovered = false;
+    let isFocused = false;
+
+    if (!track || slides.length < 2) return;
+
+    const stopAutoplay = () => {
+      window.clearInterval(autoplayTimer);
+      autoplayTimer = 0;
+    };
+
+    const showSlide = (requestedIndex, announce = false) => {
+      currentIndex = (requestedIndex + slides.length) % slides.length;
+      carousel.style.setProperty('--carousel-offset', `${currentIndex * -100}%`);
+      slides.forEach((slide, index) => slide.setAttribute('aria-hidden', String(index !== currentIndex)));
+      dots.forEach((dot, index) => {
+        const active = index === currentIndex;
+        dot.classList.toggle('is-current', active);
+        dot.setAttribute('aria-pressed', String(active));
+      });
+      if (currentLabel) {
+        currentLabel.parentElement?.setAttribute('aria-live', announce ? 'polite' : 'off');
+        currentLabel.textContent = String(currentIndex + 1);
+      }
+    };
+
+    const startAutoplay = () => {
+      stopAutoplay();
+      if (reduceMotion || !isVisible || isHovered || isFocused || document.hidden) return;
+      autoplayTimer = window.setInterval(() => showSlide(currentIndex + 1), 7000);
+    };
+
+    const selectManually = (index) => {
+      showSlide(index, true);
+      startAutoplay();
+    };
+
+    carousel.querySelector('[data-carousel-previous]')?.addEventListener('click', () => selectManually(currentIndex - 1));
+    carousel.querySelector('[data-carousel-next]')?.addEventListener('click', () => selectManually(currentIndex + 1));
+    dots.forEach((dot) => dot.addEventListener('click', () => selectManually(Number(dot.dataset.carouselGoTo))));
+
+    carousel.addEventListener('mouseenter', () => {
+      isHovered = true;
+      stopAutoplay();
+    });
+    carousel.addEventListener('mouseleave', () => {
+      isHovered = false;
+      startAutoplay();
+    });
+    carousel.addEventListener('focusin', () => {
+      isFocused = true;
+      stopAutoplay();
+    });
+    carousel.addEventListener('focusout', () => {
+      window.setTimeout(() => {
+        isFocused = carousel.contains(document.activeElement);
+        startAutoplay();
+      }, 0);
+    });
+    document.addEventListener('visibilitychange', startAutoplay);
+
+    if ('IntersectionObserver' in window) {
+      const carouselObserver = new IntersectionObserver(([entry]) => {
+        isVisible = entry.isIntersecting;
+        startAutoplay();
+      }, { threshold: 0.25 });
+      carouselObserver.observe(carousel);
+    }
+
+    showSlide(0);
+    startAutoplay();
+  });
+
   if (reduceMotion || !('IntersectionObserver' in window)) return;
 
   root.classList.add('motion-enabled');

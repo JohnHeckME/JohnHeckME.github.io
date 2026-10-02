@@ -108,6 +108,29 @@ nav a.is-current::after{transform:scaleX(1);transform-origin:left}
 details[open] summary>span{transform:rotate(45deg)}
 .project-image{margin-top:28px;border:1px solid #435064;overflow:hidden;clip-path:inset(0);background:#1a283c}
 .project-image .eb-photo{width:100%;margin:0;border:0;transform:translate3d(0,var(--image-parallax,0px),0) scale(1.025);transition:transform 650ms var(--motion-ease),filter 420ms ease;will-change:transform}
+/* Project photos use the existing reveal/hover treatment; originals remain uncropped. */
+.project-carousel{margin-top:28px}
+.project-carousel .project-image{margin-top:0;aspect-ratio:16/9}
+.project-carousel-track{display:flex;width:100%;height:100%;transform:translate3d(var(--carousel-offset,0%),0,0);transition:transform 520ms var(--motion-ease);will-change:transform}
+.project-carousel-slide{flex:0 0 100%;min-width:0;height:100%;overflow:hidden}
+.project-carousel-slide .eb-photo{height:100%;object-fit:cover}
+.project-carousel-photo--measuring{object-position:50% 37%}
+.project-carousel-controls,.project-carousel-position,.project-carousel-buttons,.carousel-dots{display:flex;align-items:center}
+.project-carousel-controls{justify-content:space-between;gap:16px;margin-top:12px}
+.project-carousel-buttons{gap:8px}
+.carousel-button{width:34px;height:34px;padding:0;border:1px solid var(--line);border-radius:50%;background:transparent;color:var(--ink);font:inherit;cursor:pointer;transition:background var(--motion-fast) ease,border-color var(--motion-fast) ease,transform var(--motion-fast) var(--motion-ease)}
+.carousel-button:hover,.carousel-button:focus-visible{background:var(--accent);border-color:#aeb9c8;transform:translateY(-1px)}
+.carousel-button:focus-visible,.carousel-dot:focus-visible{outline:3px solid var(--muted);outline-offset:3px}
+.project-carousel-position{gap:12px}
+.carousel-counter{min-width:32px;font-size:11px;font-weight:700;letter-spacing:1px;color:var(--muted)}
+.carousel-dots{gap:7px}
+.carousel-dot{width:7px;height:7px;padding:0;border:0;border-radius:50%;background:var(--line);cursor:pointer;transition:transform var(--motion-fast) var(--motion-ease),background var(--motion-fast) ease}
+.carousel-dot.is-current{background:var(--ink);transform:scale(1.35)}
+.project-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:28px}
+.project-gallery .project-image{margin-top:0;aspect-ratio:3/4;min-width:0}
+.project-gallery .eb-photo{height:100%;object-fit:cover}
+@media(min-width:601px) and (max-width:850px),(max-width:380px){.project-gallery{grid-template-columns:1fr}}
+@media(max-width:600px){.project-carousel,.project-gallery{margin-top:22px}}
 .motion-enabled .image-reveal{clip-path:inset(0 0 12% 0);transition:opacity 560ms ease,clip-path 680ms var(--motion-ease)}
 .motion-enabled .image-reveal.is-visible{clip-path:inset(0)}
 @media(hover:hover) and (pointer:fine){
@@ -138,6 +161,7 @@ details[open] summary>span{transform:rotate(45deg)}
   .hero-line,.hero-intro-item,.contact-line,.contact-actions,.section-rule>.eyebrow,.section-rule>div>.eyebrow{animation:none!important;opacity:1!important;transform:none!important}
   .section-rule::before{transform:none!important}
   .project-image .eb-photo,.project:hover .project-image .eb-photo,.project:focus-within .project-image .eb-photo{transform:none}
+  .project-carousel-track{transition:none}
 }
 
 /* Theme control keeps the navy engineering palette while adapting reading surfaces. */
@@ -162,6 +186,10 @@ body,.work-section,.project,footer{transition:background-color 280ms ease,color 
 [data-theme="dark"] .secondary>p:not(.organization),[data-theme="dark"] .secondary .date,[data-theme="dark"] .about>div>p,[data-theme="dark"] .fact p,[data-theme="dark"] footer{color:var(--muted)}
 [data-theme="dark"] .tags span{border-color:#455267}
 [data-theme="dark"] .project summary:hover,[data-theme="dark"] .project summary:focus-visible{color:#c8d2df}
+[data-theme="dark"] .carousel-button{border-color:#455267;color:var(--ink)}
+[data-theme="dark"] .carousel-button:hover,[data-theme="dark"] .carousel-button:focus-visible{background:#243247;border-color:#697a91}
+[data-theme="dark"] .carousel-dot{background:#536176}
+[data-theme="dark"] .carousel-dot.is-current{background:var(--ink)}
 [data-theme="dark"] .text-link{border-color:var(--ink)}
 [data-theme="dark"] .scroll-progress{background:#d9e2ec}
 [data-theme="dark"] .skip{background:#162334;color:var(--ink)}
@@ -171,3 +199,4 @@ body,.work-section,.project,footer{transition:background-color 280ms ease,color 
 @media(hover:hover) and (pointer:fine){[data-theme="dark"] .toolkit span:hover{background:#172435;color:var(--ink);box-shadow:inset 0 0 0 1px #3d4b5e}}
 @media(max-width:600px){.header-controls{gap:12px}nav{gap:14px}.theme-toggle{width:34px;height:34px}.theme-icon{font-size:16px}}
 @media(prefers-reduced-motion:reduce){.theme-icon,.theme-toggle,body,.header,.work-section,.project,footer{transition:none!important}}
+
